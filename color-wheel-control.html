@@ -4,9 +4,7 @@
    <meta charset="utf-8">
    <!--
 
-ELK(Extremely Large Knob)
-
-Use p5js to control large knob on computer screen with scroll wheel of mouse
+COLOR WHEEL CONTROL
 
 -->
 
@@ -14,18 +12,25 @@ Use p5js to control large knob on computer screen with scroll wheel of mouse
    <title>Color Wheel Control Knob</title>    
    <script src = "https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
    <script src = "rainbow.js"></script>
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>   
 </head>
 <body> 
-<a id = "editlink" href = "edit-index.html">edit-index.html</a>
-<a id = "editlink2" href = "edit-web-files.html">edit-web-files.html</a>
-<a id = "codelink" href = "https://github.com/lafelabs/ELK">Code on Github</a>
+<div id = "qrcode"></div>
+<a id = "codelink" href = "color-wheel-response.html">RESPONSE</a>
 <style>
 body{
     font-family:Arial;
     background-color:#404040;
+    overflow:hidden;
 }
 a{
     background-color:#aaaaaa;
+}
+#qrcode{
+    position:absolute;
+    left:50px;
+    top:50px;
+    z-index:2;
 }
 #editlink{
     position:absolute;
@@ -55,8 +60,9 @@ a{
 main{
     border:solid;
     position:absolute;
-    left:50px;
-    top:50px;
+    left:0px;
+    top:0px;
+    overflow:hidden;
 }
 </style>
 <script>
@@ -67,28 +73,36 @@ faceplate_color = "#7c7b84";
 function setup() {
 
   if(innerWidth > innerHeight){
-      squaresize = innerHeight - 100;
-      document.getElementsByTagName("main")[0].style.left = ((innerWidth - squaresize)/2).toString() +  "px";
+      squaresize = innerHeight;
   }
   else{
-      squaresize = innerWidth - 100;
-      document.getElementsByTagName("main")[0].style.left = ((innerHeight - squaresize)/2).toString() +  "px";
+      squaresize = innerWidth;
   }
-  createCanvas(squaresize, squaresize);    
-  
+  createCanvas(innerWidth, innerHeight);    
+  textSize(50);
 }
 
 wheel = {};
 wheel.angle = 0;//angle in degrees
 wheel.color = colorwheel(wheel.angle);
 
-lock = false;
-
 function draw(){
     background(wheel.color);
     stroke(0);
     strokeWeight(10)
-    line(width/2,height/2,width/2 + 0.4*squaresize*Math.cos(Math.PI*wheel.angle/180),height/2 + 0.4*squaresize*Math.sin(Math.PI*wheel.angle/180));
+
+//    line(width/2,height/2,mouseX,mouseY);
+    angle = Math.round(180*Math.atan2(width/2 - mouseX,mouseY - height/2)/Math.PI) + 180;
+    line(width/2,height/2,width/2 + squaresize*Math.cos(Math.PI*(angle - 90)/180),height/2 + squaresize*Math.sin(Math.PI*(angle - 90)/180));
+    if(angle != wheel.angle){
+        wheel.angle = angle;
+        wheel.color = colorwheel(wheel.angle);
+        savejson();
+    }
+    strokeWeight(1)
+    text("angle = " + angle.toString(),100,height - 100);
+    text("color = " + wheel.color,100,height - 180);
+
     
 }
 
@@ -98,28 +112,17 @@ function savejson(){
     httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     httpc.send("data="+encodeURIComponent(JSON.stringify(wheel,null,"    "))+"&filename=wheel.json");//send text to save-file.php
 }
+codesquaresize = 100;
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
 
-direction = '';
-function mouseWheel(event) {
-  if (event.delta > 0) {
-    direction = 'mouse wheel down';
-    wheel.angle++;
-  } else {
-    direction = 'mouse wheel up';
-    wheel.angle--;
-  }
-  wheel.angle = wheel.angle;
-  wheel.color = colorwheel(wheel.angle);
-
-  savejson();//save json file
- 
-  // Uncomment to prevent any default behavior.
-  // return false;
-}
-
-function mouseClicked() {
-  lock = !lock;
-}
 
 </script>
 </body>

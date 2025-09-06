@@ -17,6 +17,8 @@ Use p5js to control large knob on computer screen with scroll wheel of mouse
    <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
+<a id = "codelink" href = "color-wheel-control.html">CONTROL</a>
+
 <div id = "qrcode"></div>
 <style>
 #qrcode{
@@ -40,6 +42,15 @@ main{
     top:0px;
     overflow:hidden;
 }
+#codelink{
+    position:absolute;
+    right:5px;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+
 </style>
 <script>
 function setup() {
