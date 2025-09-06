@@ -9,6 +9,7 @@
  - [delete-php-files.html](delete-php-files.html)
  - [delete-text-files.html](delete-text-files.html)
  - [delete-web-files.html](delete-web-files.html)
+ - [dual-tone-control.html](dual-tone-control.html)
  - [edit-index.html](edit-index.html)
  - [edit-markdown-files.html](edit-markdown-files.html)
  - [edit-php-files.html](edit-php-files.html)

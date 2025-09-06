@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!--
+
+Dual tone control
+
+-->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAEQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAD//wAA5+cAAM/7AAC39QAAu+0AAH/+AAB//gAAHngAAH5+AAB/vgAAf94AALftAACu9QAA3vsAAOblAAD4HwAA" rel="icon" type="image/x-icon">
+   <title>Dual Tone Control Knob</title>    
+   <script src = "https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+   <script src = "rainbow.js"></script>
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>   
+</head>
+<body> 
+<div id = "qrcode"></div>
+<a id = "codelink" href = "dual-tone-response.html">RESPONSE</a>
+<style>
+body{
+    font-family:Arial;
+    background-color:#404040;
+    overflow:hidden;
+}
+a{
+    background-color:#aaaaaa;
+}
+#qrcode{
+    position:absolute;
+    left:50px;
+    top:50px;
+    z-index:2;
+}
+#editlink{
+    position:absolute;
+    left:5px;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+#editlink2{
+    position:absolute;
+    left:50%;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+
+#codelink{
+    position:absolute;
+    right:5px;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+main{
+    border:solid;
+    position:absolute;
+    left:0px;
+    top:0px;
+    overflow:hidden;
+}
+</style>
+<script>
+
+
+function setup() {
+
+  if(innerWidth > innerHeight){
+      squaresize = innerHeight;
+  }
+  else{
+      squaresize = innerWidth;
+  }
+  createCanvas(innerWidth, innerHeight);    
+  textSize(50);
+}
+
+tones = {};
+tones.tone1 = 80; //first frequency in Hz
+tones.tone2 = 90; //second frequency in Hz
+tones.amplitude = 0.5;//scaled up to 1, i think
+
+tone1min = 40;//  Hz
+tone1max = 100;// Hz
+deltamin = -10;// Hz
+deltamax = 10;//  Hz
+
+
+
+function draw(){
+    background(150);
+    tone1 = Math.round(map(mouseX,0,width,tone1min,tone1max)*100)/100;
+    delta = map(mouseY,height,0,deltamin,deltamax);
+    tone2 = Math.round((tone1 + delta)*100)/100;
+    if(tone1 != tones.tone1){
+        tones.tone1 = tone1;
+        savejson();
+    }
+    if(tone2 != tones.tone2){
+        tones.tone2 = tone2;
+        savejson;
+    }
+    strokeWeight(10);
+    stroke("purple");
+    line(0,height/2,width,height/2);
+    textSize(100);
+    strokeWeight(1);
+    fill("red");
+    stroke("red");
+    text("tone1  = " + tone1.toString() +  " Hz",100,height/2 - 70);
+    fill("blue");
+    stroke("blue");
+    text("tone2  = " + tone2.toString() +  " Hz",100,height/2 + 120);
+    
+    fill("green");
+    stroke("green");
+    text("amplitude  = " + tones.amplitude.toString(),100,height/2 + 250);
+    
+    
+    noFill();
+    beginShape();
+    stroke("red");
+    strokeWeight(5);
+    for(var x = 0;x < width;x++){
+        vertex(x,height/2 + (tones.amplitude*height/4)*Math.sin((tone1/100)*2*Math.PI*x/100));
+    }
+    endShape();
+    stroke("blue");
+    beginShape();
+    for(var x = 0;x < width;x++){
+        vertex(x,height/2 + (tones.amplitude*height/4)*Math.sin((tone2/100)*2*Math.PI*x/100));
+    }
+    endShape();    
+
+    stroke("purple");
+    beginShape();
+    for(var x = 0;x < width;x++){
+        vertex(width/2 + (tones.amplitude*height/4)*Math.sin((tone1/100)*2*Math.PI*x/100),height/4 + (tones.amplitude*height/4)*Math.cos((tone2/100)*2*Math.PI*x/100));
+    }
+    endShape();
+    
+}
+
+function savejson(){
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "save-file.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+encodeURIComponent(JSON.stringify(tones,null,"    "))+"&filename=tones.json");//send text to save-file.php
+}
+
+codesquaresize = 100;
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+direction = '';
+function mouseWheel(event) {
+  if (event.delta > 0) {
+    direction = 'mouse wheel down';
+    tones.amplitude += 0.01;
+  } else {
+    direction = 'mouse wheel up';
+    tones.amplitude -= 0.01;
+  }
+  if(tones.amplitude < 0){
+      tones.amplitude = 0;
+  }
+  if(tones.amplitude > 1){
+      tones.amplitude = 1;
+  }
+  tones.amplitude = Math.round(tones.amplitude*100)/100;
+  savejson();//save json file
+ 
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
+</script>
+</body>
+</html>
+
+
+    
+    

@@ -94,16 +94,31 @@ function draw(){
 //    line(width/2,height/2,mouseX,mouseY);
     angle = Math.round(180*Math.atan2(width/2 - mouseX,mouseY - height/2)/Math.PI) + 180;
     line(width/2,height/2,width/2 + squaresize*Math.cos(Math.PI*(angle - 90)/180),height/2 + squaresize*Math.sin(Math.PI*(angle - 90)/180));
+
+    line(width/2,height/2,width/2 + squaresize*Math.cos(-Math.PI/6),height/2 + squaresize*Math.sin(-Math.PI/6));
+    line(width/2,height/2,width/2 + squaresize*Math.cos(-5*Math.PI/6),height/2 + squaresize*Math.sin(-5*Math.PI/6));    
+    line(width/2,height/2,width/2 + squaresize*Math.cos(-9*Math.PI/6),height/2 + squaresize*Math.sin(-9*Math.PI/6));        
+
     if(angle != wheel.angle){
         wheel.angle = angle;
         wheel.color = colorwheel(wheel.angle);
         savejson();
     }
+    textSize(50);
     strokeWeight(1)
-    text("angle = " + angle.toString(),100,height - 100);
-    text("color = " + wheel.color,100,height - 180);
-
+    text("angle = " + angle.toString(),100,0.5*height + 50);
+    text("color = " + wheel.color,100,0.5*height - 50);
+    textSize(180);
+    strokeWeight(6)
+    fill("red");
+    text("R",width/2- 75,150);
+    fill("green");
+    text("G",width - 250,height - 150);
+    fill("blue");
+    text("B",150,height - 150);
     
+    
+    fill(0);
 }
 
 function savejson(){
