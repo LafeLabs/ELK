@@ -10,6 +10,7 @@
  - [delete-text-files.html](delete-text-files.html)
  - [delete-web-files.html](delete-web-files.html)
  - [dual-tone-control.html](dual-tone-control.html)
+ - [dual-tone-response.html](dual-tone-response.html)
  - [edit-index.html](edit-index.html)
  - [edit-markdown-files.html](edit-markdown-files.html)
  - [edit-php-files.html](edit-php-files.html)
@@ -40,6 +41,7 @@
  - [dna.json](dna.json)
  - [elk.json](elk.json)
  - [links.json](links.json)
+ - [tones.json](tones.json)
  - [wheel.json](wheel.json)
  - [xy.json](xy.json)
 

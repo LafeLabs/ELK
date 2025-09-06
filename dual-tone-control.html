@@ -86,11 +86,9 @@ tones.tone2 = 90; //second frequency in Hz
 tones.amplitude = 0.5;//scaled up to 1, i think
 
 tone1min = 40;//  Hz
-tone1max = 100;// Hz
+tone1max = 140;// Hz
 deltamin = -10;// Hz
 deltamax = 10;//  Hz
-
-
 
 function draw(){
     background(150);
@@ -112,14 +110,14 @@ function draw(){
     strokeWeight(1);
     fill("red");
     stroke("red");
-    text("tone1  = " + tone1.toString() +  " Hz",100,height/2 - 70);
+    //text("tone1  = " + tone1.toString() +  " Hz",100,height/2 - 70);
     fill("blue");
     stroke("blue");
-    text("tone2  = " + tone2.toString() +  " Hz",100,height/2 + 120);
+    //text("tone2  = " + tone2.toString() +  " Hz",100,height/2 + 120);
     
     fill("green");
     stroke("green");
-    text("amplitude  = " + tones.amplitude.toString(),100,height/2 + 250);
+//    text("amplitude  = " + tones.amplitude.toString(),100,height/2 + 250);
     
     
     noFill();

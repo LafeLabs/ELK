@@ -9,6 +9,7 @@
         "delete-text-files.html",
         "delete-web-files.html",
         "dual-tone-control.html",
+        "dual-tone-response.html",
         "edit-index.html",
         "edit-markdown-files.html",
         "edit-php-files.html",
@@ -28,6 +29,7 @@
         "dna.json",
         "elk.json",
         "links.json",
+        "tones.json",
         "wheel.json",
         "xy.json"
     ],
