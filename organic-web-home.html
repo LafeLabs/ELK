@@ -11,6 +11,7 @@
    <title>Organic web home page</title>    
    <script type="module" src="track-list.js"></script>   
    <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+   <script src = "rainbow.js"></script>
 </head>
 <body>    
     <H1>Organic Web</H1>
@@ -48,10 +49,10 @@
 
     <H1>Wall</H1>
     <TEXTAREA ID = "wall"></TEXTAREA>
-
 <style>
 body{
     font-family:Arial;
+    background-color:#404040;
 }
     pre{
     font-family:courier;
@@ -253,7 +254,7 @@ function loadfiles(){
             document.getElementById("html-feed").appendChild(newa);
         }
     }    
-
+rainbow(document.getElementsByTagName("A"));
 }
 
 
@@ -312,7 +313,8 @@ function drawlinkfeed(){
         indexdata.innerHTML = index.toString();
         new_cardboard_sign.appendChild(indexdata);
     }
-
+    rainbow(document.getElementsByTagName("A"));
+    rainbow(document.getElementsByTagName("A"));
 }
 
 function savelinks(){
@@ -375,6 +377,13 @@ document.getElementById("wall").onkeyup = function() {
     httpc.open("POST", url, true);
     httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
     httpc.send("data="+data+"&filename=wall.txt");//send text to save-file.php
+}
+
+rainbow(document.getElementsByTagName("A"));
+
+titles = document.getElementsByTagName("H1");
+for(var index = 0;index < titles.length;index++){
+    rainbowstring(titles[index]);    
 }
 
 

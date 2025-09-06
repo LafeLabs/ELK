@@ -2,6 +2,8 @@
 # HTML FILES
 
  - [branch.html](branch.html)
+ - [color-wheel-control.html](color-wheel-control.html)
+ - [color-wheel-response.html](color-wheel-response.html)
  - [delete-images.html](delete-images.html)
  - [delete-markdown-files.html](delete-markdown-files.html)
  - [delete-php-files.html](delete-php-files.html)
@@ -15,6 +17,7 @@
  - [edit-web-files.html](edit-web-files.html)
  - [index.html](index.html)
  - [list-files.html](list-files.html)
+ - [mirror.html](mirror.html)
  - [organic-web-home.html](organic-web-home.html)
  - [qrcode.html](qrcode.html)
  - [read-markdown-files.html](read-markdown-files.html)
@@ -28,12 +31,16 @@
 
 # JAVASCRIPT FILES
 
+ - [rainbow.js](rainbow.js)
  - [track-list.js](track-list.js)
 
 # JSON FILES
 
  - [dna.json](dna.json)
+ - [elk.json](elk.json)
  - [links.json](links.json)
+ - [wheel.json](wheel.json)
+ - [xy.json](xy.json)
 
 # MARKDOWN FILES
 

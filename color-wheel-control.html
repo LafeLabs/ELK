@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!--
+
+ELK(Extremely Large Knob)
+
+Use p5js to control large knob on computer screen with scroll wheel of mouse
+
+-->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAEQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAD//wAA5+cAAM/7AAC39QAAu+0AAH/+AAB//gAAHngAAH5+AAB/vgAAf94AALftAACu9QAA3vsAAOblAAD4HwAA" rel="icon" type="image/x-icon">
+   <title>Color Wheel Control Knob</title>    
+   <script src = "https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+   <script src = "rainbow.js"></script>
+</head>
+<body> 
+<a id = "editlink" href = "edit-index.html">edit-index.html</a>
+<a id = "editlink2" href = "edit-web-files.html">edit-web-files.html</a>
+<a id = "codelink" href = "https://github.com/lafelabs/ELK">Code on Github</a>
+<style>
+body{
+    font-family:Arial;
+    background-color:#404040;
+}
+a{
+    background-color:#aaaaaa;
+}
+#editlink{
+    position:absolute;
+    left:5px;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+#editlink2{
+    position:absolute;
+    left:50%;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+
+#codelink{
+    position:absolute;
+    right:5px;
+    top:5px;
+    z-index:2;
+    color:blue;
+    font-size:2em;
+}
+main{
+    border:solid;
+    position:absolute;
+    left:50px;
+    top:50px;
+}
+</style>
+<script>
+
+metal_color = "#d4d0c8";
+faceplate_color = "#7c7b84";
+
+function setup() {
+
+  if(innerWidth > innerHeight){
+      squaresize = innerHeight - 100;
+      document.getElementsByTagName("main")[0].style.left = ((innerWidth - squaresize)/2).toString() +  "px";
+  }
+  else{
+      squaresize = innerWidth - 100;
+      document.getElementsByTagName("main")[0].style.left = ((innerHeight - squaresize)/2).toString() +  "px";
+  }
+  createCanvas(squaresize, squaresize);    
+  
+}
+
+wheel = {};
+wheel.angle = 0;//angle in degrees
+wheel.color = colorwheel(wheel.angle);
+
+lock = false;
+
+function draw(){
+    background(wheel.color);
+    stroke(0);
+    strokeWeight(10)
+    line(width/2,height/2,width/2 + 0.4*squaresize*Math.cos(Math.PI*wheel.angle/180),height/2 + 0.4*squaresize*Math.sin(Math.PI*wheel.angle/180));
+    
+}
+
+function savejson(){
+    var httpc = new XMLHttpRequest();
+    httpc.open("POST", "save-file.php", true);
+    httpc.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    httpc.send("data="+encodeURIComponent(JSON.stringify(wheel,null,"    "))+"&filename=wheel.json");//send text to save-file.php
+}
+
+direction = '';
+function mouseWheel(event) {
+  if (event.delta > 0) {
+    direction = 'mouse wheel down';
+    wheel.angle++;
+  } else {
+    direction = 'mouse wheel up';
+    wheel.angle--;
+  }
+  wheel.angle = wheel.angle;
+  wheel.color = colorwheel(wheel.angle);
+
+  savejson();//save json file
+ 
+  // Uncomment to prevent any default behavior.
+  // return false;
+}
+
+function mouseClicked() {
+  lock = !lock;
+}
+
+</script>
+</body>
+</html>
+
+
+    
+    
