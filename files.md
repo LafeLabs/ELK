@@ -17,6 +17,8 @@
  - [edit-readme.html](edit-readme.html)
  - [edit-text-files.html](edit-text-files.html)
  - [edit-web-files.html](edit-web-files.html)
+ - [feel-sound.html](feel-sound.html)
+ - [feel.html](feel.html)
  - [index.html](index.html)
  - [list-files.html](list-files.html)
  - [mirror.html](mirror.html)
@@ -25,6 +27,10 @@
  - [read-markdown-files.html](read-markdown-files.html)
  - [read-markdown-latex-files.html](read-markdown-latex-files.html)
  - [read-text-files.html](read-text-files.html)
+ - [see-color.html](see-color.html)
+ - [see.html](see.html)
+ - [touch-color.html](touch-color.html)
+ - [touch.html](touch.html)
 
 # CSS FILES
 

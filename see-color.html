@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!--
+
+ELK(Extremely Large Knob)
+
+Use p5js to control large knob on computer screen with scroll wheel of mouse
+
+-->
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAEQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAQAAAAAAAAAAD//wAA5+cAAM/7AAC39QAAu+0AAH/+AAB//gAAHngAAH5+AAB/vgAAf94AALftAACu9QAA3vsAAOblAAD4HwAA" rel="icon" type="image/x-icon">
+   <title>Color Wheel Control Knob</title>    
+   <script src = "https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
+   <script src = "rainbow.js"></script>
+   <script src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<a id = "codelink" href = "touch-color.html">TOUCH COLOR</a>
+<a id = "branch" href ="branch.html">BRANCH</a>
+<a id = "herelink"></a>
+
+<div id = "qrcode"></div>
+<style>
+#qrcode{
+    position:absolute;
+    left:100px;
+    top:100px;
+    z-index:2;
+}
+a{
+    background-color:#bbbbbb;
+    color:blue;
+    position:absolute;
+    z-index:2;
+    font-size:3em;
+    
+}
+#herelink{
+    left:5px;
+    top:5px;
+}
+#editlink2{
+    left:50%;
+    top:5px;
+}
+#codelink{
+    right:5px;
+    top:3em;
+}
+
+body{
+    font-family:Arial;
+    background-color:#404040;
+    overflow:hidden;
+}
+main{
+    border:solid;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+#branch{
+    right:5px;
+    bottom:5px;
+}
+
+</style>
+<script>
+function setup() {
+  createCanvas(innerWidth, innerHeight);    
+}
+
+wheel = {};
+wheel.angle = 0;//angle in degrees
+wheel.color = colorwheel(wheel.angle);
+
+function draw(){
+    loadjson();
+    background(wheel.color);
+}
+
+
+
+function loadjson(){
+    currentFile = "wheel.json";
+    var httpc = new XMLHttpRequest();
+    httpc.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            wheel = JSON.parse(this.responseText);
+        }
+    };
+    httpc.open("GET", "load-file.php?filename=" + currentFile, true);
+    httpc.send();
+}
+
+codesquaresize = 100;
+globalurl = window.location.href;
+qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: globalurl,
+	width: codesquaresize,
+	height: codesquaresize,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+
+document.getElementById("herelink").href = globalurl;
+document.getElementById("herelink").innerHTML = globalurl;
+
+
+</script>
+</body>
+</html>
+
+
+    
+    
